@@ -55,7 +55,8 @@ customElements.define('bart-board',
       // Get the p-element in which we add the text.
       this._textElement = this.shadowRoot.querySelector('p')
 
-      // TODO: Maybee you need to define some default values here
+      this._speed = 50
+      this._text = ""
     }
 
     /**
