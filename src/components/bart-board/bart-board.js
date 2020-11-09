@@ -63,7 +63,7 @@ customElements.define('bart-board',
      *
      */
     static get observedAttributes () {
-      // TODO: Add observer for text and speed.
+      return ["text", "speed"]
     }
 
     /**
