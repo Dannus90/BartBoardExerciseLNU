@@ -56,7 +56,7 @@ customElements.define('bart-board',
       this._textElement = this.shadowRoot.querySelector('p')
 
       this._speed = 50
-      this._text = ""
+      this._text = 'I will never ever skip the line in the task queue again.'
     }
 
     /**
@@ -76,6 +76,7 @@ customElements.define('bart-board',
      */
     attributeChangedCallback (name, oldValue, newValue) {
       // TODO: Add your code for handling updates and creation of the observed attributes.
+      name === "text" ? this._text = newValue : name === "speed" ? this._speed = newValue : ""
     }
 
     /**
@@ -84,6 +85,13 @@ customElements.define('bart-board',
     connectedCallback () {
       // TODO: Add your eventlisteners for mousedown, mouseup here. You also need to add mouseleave to stop writing
       //       when the mouse pointer leavs the bart board. This should stop the printing.
+      this.addEventListener("mousedown", () => {
+
+      })
+
+      this.addEventListener("mouseup", this.stopWriting())
+
+      this.addEventListener("mouseleave", this.stopWriting())
     }
 
     /**
