@@ -9,3 +9,10 @@
 import './components/bart-board/'
 
 // TODO: Use this file to experiment with the bart-board.
+document.querySelector('#bb1').addEventListener('filled', (event) => {
+    event.target.clear()
+  })
+  
+const bartBoard = document.createElement("bart-board")
+bartBoard.setAttribute("id", "bartBoard")
+document.body.appendChild(bartBoard)

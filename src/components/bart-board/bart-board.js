@@ -26,6 +26,7 @@ template.innerHTML = `
       margin:10px;
       float:left;
       border-radius: 3px;
+      cursor: pointer;
     }
     p {
       margin: 0;
@@ -75,7 +76,6 @@ customElements.define('bart-board',
      * @param {any} newValue the new attribute value.
      */
     attributeChangedCallback (name, oldValue, newValue) {
-      // TODO: Add your code for handling updates and creation of the observed attributes.
       name === "text" ? this._text = newValue : name === "speed" ? this._speed = newValue : ""
     }
 
@@ -83,14 +83,8 @@ customElements.define('bart-board',
      * Called after the element is inserted into the DOM.
      */
     connectedCallback () {
-      // TODO: Add your eventlisteners for mousedown, mouseup here. You also need to add mouseleave to stop writing
-      //       when the mouse pointer leavs the bart board. This should stop the printing.
-      this.addEventListener("mousedown", () => {
-
-      })
-
+      this.addEventListener("mousedown", this._onWrite)
       this.addEventListener("mouseup", this.stopWriting())
-
       this.addEventListener("mouseleave", this.stopWriting())
     }
 
@@ -116,5 +110,9 @@ customElements.define('bart-board',
       // TODO: Implement the method
     }
     // TODO: Add methods at will. The solution file will use the aditional: "_onWrite"
+
+    _onWrite () {
+      
+    }
   }
 )
