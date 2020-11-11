@@ -56,6 +56,8 @@ customElements.define('bart-board',
       // Get the p-element in which we add the text.
       this._textElement = this.shadowRoot.querySelector('p')
 
+      this._intervalId = null
+      this._letter = 0
       this._speed = 50
       this._text = 'I will never ever skip the line in the task queue again.'
     }
@@ -76,7 +78,13 @@ customElements.define('bart-board',
      * @param {any} newValue the new attribute value.
      */
     attributeChangedCallback (name, oldValue, newValue) {
-      name === "text" ? this._text = newValue : name === "speed" ? this._speed = newValue : ""
+      if(name === "text") {
+        return this._text = newValue
+      }
+
+      if(name === "speed") {
+        return this._speed = newValue
+      }
     }
 
     /**
@@ -84,8 +92,9 @@ customElements.define('bart-board',
      */
     connectedCallback () {
       this.addEventListener("mousedown", this._onWrite)
-      this.addEventListener("mouseup", this.stopWriting())
-      this.addEventListener("mouseleave", this.stopWriting())
+      this.addEventListener("mouseup", this.stopWriting)
+      this.addEventListener("mouseleave", this.stopWriting)
+      this.addEventListener("dblclick", this.clear)
     }
 
     /**
@@ -93,8 +102,10 @@ customElements.define('bart-board',
      */
     disconnectedCallback () {
       this.removeEventListener("mousedown",this._onWrite)
-      this.removeEventListener("mouseup", this.stopWriting())
-      this.removeEventListener("mouseleave", this.stopWriting())
+      this.removeEventListener("mouseup", this.stopWriting)
+      this.removeEventListener("mouseleave", this.stopWriting)
+      this.removeEventListener("dblclick", this.clear)
+      this.stopWriting()
     }
 
     /**
@@ -102,19 +113,34 @@ customElements.define('bart-board',
      *
      */
     stopWriting () {
-      // TODO: Implement the method
+      clearTimeout(this._intervalId)
+
+      return this
     }
 
     /**
      * Wipes the board clean and resets the letter counter.
      */
     clear () {
-      // TODO: Implement the method
-    }
-    // TODO: Add methods at will. The solution file will use the aditional: "_onWrite"
+      this._textElement.textContent = ''
+      this._letter = 0
 
-    _onWrite () {
-      
+      return this
+    }
+    _onWrite (event) {
+      this._intervalId = setInterval(() => {
+        if(this._textElement.offsetHeight >= this.offsetHeight) {
+          this.dispatchEvent(new window.CustomEvent('filled'))
+          this.stopWriting()
+          return
+        }
+        
+        this._textElement.textContent += this._text.charAt(this._letter++)
+        if(this._letter >= this._text.length) {
+          this._textElement.textContent += ' '
+          this._letter = 0
+        }
+      }, this._speed)
     }
   }
 )
