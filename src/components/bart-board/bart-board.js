@@ -92,7 +92,9 @@ customElements.define('bart-board',
      * Called after the element has been removed from the DOM.
      */
     disconnectedCallback () {
-      // TODO: Remove your eventlisterners here.
+      this.removeEventListener("mousedown",this._onWrite)
+      this.removeEventListener("mouseup", this.stopWriting())
+      this.removeEventListener("mouseleave", this.stopWriting())
     }
 
     /**
